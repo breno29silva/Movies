@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -6,6 +5,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    //https://kotlinlang.org/docs/serialization.html#example-json-serialization
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -39,6 +41,13 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            // https://kotlinlang.org/docs/multiplatform/compose-navigation.html
+            implementation(libs.navigation.compose)
+
+            // https://kotlinlang.org/docs/serialization.html#serialize-and-deserialize-json
+            implementation(libs.kotlinx.serialization.json)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
