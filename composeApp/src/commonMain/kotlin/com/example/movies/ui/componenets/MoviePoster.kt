@@ -1,6 +1,5 @@
 package com.example.movies.ui.componenets
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,11 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.movies.domain.model.Movie
 import com.example.movies.domain.model.movie1
-import movies.composeapp.generated.resources.Res
-import movies.composeapp.generated.resources.movie
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview(showBackground = true)
@@ -34,9 +31,9 @@ fun MoviePoster(modifier: Modifier = Modifier, movie: Movie) {
             modifier = Modifier.width(140.dp).height(210.dp),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier.fillMaxWidth(),
-                painter = painterResource(Res.drawable.movie),
+                model = movie.postUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

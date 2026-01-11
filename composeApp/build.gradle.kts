@@ -71,6 +71,10 @@ kotlin {
 
             // https://ktor.io/docs/client-logging.html#multiplatform
             implementation(libs.ktor.client.logging)
+
+            // https://github.com/coil-kt/coil
+            implementation(libs.coil.network.ktor3)
+            implementation(libs.coil.compose)
         }
         iosMain.dependencies {
             // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
