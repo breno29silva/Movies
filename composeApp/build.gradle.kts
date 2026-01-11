@@ -31,6 +31,12 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
+            implementation(libs.ktor.client.okhttp)
+
+            // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
+            implementation(libs.kotlinx.coroutines.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -48,6 +54,27 @@ kotlin {
             // https://kotlinlang.org/docs/serialization.html#serialize-and-deserialize-json
             implementation(libs.kotlinx.serialization.json)
 
+            // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
+            implementation(libs.ktor.client.core)
+
+            // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
+            implementation(libs.kotlinx.coroutines.core)
+
+            // https://ktor.io/docs/client-serialization.html#serialization_dependency
+            implementation(libs.ktor.content.negotiation)
+
+            // https://ktor.io/docs/client-serialization.html#serialization_dependency
+            implementation(libs.ktor.serialization.json)
+
+            // https://ktor.io/docs/client-auth.html#install_plugin
+            implementation(libs.ktor.client.auth)
+
+            // https://ktor.io/docs/client-logging.html#multiplatform
+            implementation(libs.ktor.client.logging)
+        }
+        iosMain.dependencies {
+            // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
+            implementation(libs.ktor.client.darwin)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
