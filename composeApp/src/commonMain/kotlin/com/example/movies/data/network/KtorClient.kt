@@ -48,8 +48,9 @@ object KtorClient {
         }
     }
 
+    // TODO Add error cases
     suspend fun getMovies(category: String, language: String = "pt-BR"): MoviesListResponse {
-        return client.get(urlString = "$BASE_URL/3/movies/${category}") {
+        return client.get(urlString = "$BASE_URL/3/movie/${category}") {
             parameter(key = "language", language)
         }.body()
     }
