@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 
 class MoviesRepository(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
-    suspend fun getMovieSection(): List<MovieSection> {
+    suspend fun getMovieSections(): List<MovieSection> {
         return withContext(ioDispatcher) {
 
             val popularMoviesDeferred = async { KtorClient.getMovies("popular") }
