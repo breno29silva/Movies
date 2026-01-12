@@ -75,6 +75,12 @@ kotlin {
             // https://github.com/coil-kt/coil
             implementation(libs.coil.network.ktor3)
             implementation(libs.coil.compose)
+
+            // https://insert-koin.io/docs/setup/koin/#jetpack-compose-or-compose-multiplatform
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.koin.compose.viewmodel.navigation)
+            implementation(libs.koin.core)
         }
         iosMain.dependencies {
             // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
