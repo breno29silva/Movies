@@ -22,6 +22,7 @@ import com.example.movies.data.repository.MoviesRepository
 import com.example.movies.domain.model.MovieSection
 import com.example.movies.domain.model.movie1
 import com.example.movies.ui.componenets.MoviesSection
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -66,7 +67,7 @@ fun MoviesListScreen(moviesListState: MoviesListViewModel.MoviesListState) {
                         verticalArrangement = Arrangement.spacedBy(32.dp)
                     ) {
                         items(moviesListState.movieSections) { item ->
-                            MoviesSection(title = item.sectionTypeEnum.title, movies = item.movies)
+                            MoviesSection(title = stringResource(item.sectionTypeEnum.titleRes), movies = item.movies)
                         }
                     }
                 }
