@@ -23,14 +23,11 @@ import com.example.movies.domain.model.MovieSection
 import com.example.movies.domain.model.movie1
 import com.example.movies.ui.componenets.MoviesSection
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoviesListRoute(
-    viewModel: MoviesListViewModel = viewModel {
-        MoviesListViewModel(
-            moviesRepository = MoviesRepository()
-        )
-    }
+    viewModel: MoviesListViewModel = koinViewModel()
 ) {
     val moviesListState by viewModel.moviesListState.collectAsStateWithLifecycle()
 
