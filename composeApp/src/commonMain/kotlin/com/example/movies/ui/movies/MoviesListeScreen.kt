@@ -1,64 +1,86 @@
 package com.example.movies.ui.movies
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.movies.data.network.IMAGE_SMALL_BASE_URL
-import com.example.movies.data.network.KtorClient
-import com.example.movies.domain.model.Movie
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.movies.data.repository.MoviesRepository
+import com.example.movies.domain.model.MovieSection
 import com.example.movies.domain.model.movie1
-import com.example.movies.ui.componenets.MovieSection
+import com.example.movies.ui.componenets.MoviesSection
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun MoviesListRoute() {
-
-    var popularMovies by remember {
-        mutableStateOf(emptyList<Movie>())
+fun MoviesListRoute(
+    viewModel: MoviesListViewModel = viewModel {
+        MoviesListViewModel(
+            moviesRepository = MoviesRepository()
+        )
     }
+) {
+    val moviesListState by viewModel.moviesListState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        val response = KtorClient.getMovies("popular")
-        popularMovies = response.results.map {
-            Movie(
-                id = it.id,
-                title = it.title,
-                overview = it.overview,
-                postUrl = "$IMAGE_SMALL_BASE_URL${it.posterPath}"
-            )
-        }
-    }
-
-    MoviesListScreen(popularMovies)
+    MoviesListScreen(moviesListState)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MoviesListScreenPreview() {
-    MoviesListScreen(listOf(movie1))
+    val successState = MoviesListViewModel.MoviesListState.Success(
+        movieSections = listOf(
+            MovieSection(
+                sectionTypeEnum = MovieSection.SectionTypeEnum.POPULAR,
+                movies = listOf(movie1, movie1)
+            )
+        )
+    )
+    val errorState = MoviesListViewModel.MoviesListState.Error(message = "Fail")
+    val loadingState = MoviesListViewModel.MoviesListState.Loading
+    MoviesListScreen(moviesListState = successState)
 }
 
 @Composable
-fun MoviesListScreen(popularMovies: List<Movie>) {
+fun MoviesListScreen(moviesListState: MoviesListViewModel.MoviesListState) {
     Scaffold(modifier = Modifier) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues),
-            contentPadding = PaddingValues(vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
-        ) {
-            items(popularMovies) {
-                MovieSection(title = "Popular movies", movies = popularMovies)
+        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+            when (moviesListState) {
+                MoviesListViewModel.MoviesListState.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+
+                is MoviesListViewModel.MoviesListState.Success -> {
+
+                    LazyColumn(
+                        contentPadding = PaddingValues(vertical = 16.dp),
+                        verticalArrangement = Arrangement.spacedBy(32.dp)
+                    ) {
+                        items(moviesListState.movieSections) { item ->
+                            MoviesSection(title = item.sectionTypeEnum.title, movies = item.movies)
+                        }
+                    }
+                }
+
+                is MoviesListViewModel.MoviesListState.Error -> {
+                    Text(
+                        text = moviesListState.message,
+                        modifier = Modifier.align(Alignment.Center).padding(16.dp),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }

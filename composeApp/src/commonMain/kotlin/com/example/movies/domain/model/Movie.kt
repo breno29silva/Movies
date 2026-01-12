@@ -29,5 +29,5 @@ val movie1 = Movie(
     id = 1,
     title = "title",
     overview = "overview",
-    postUrl = "postUrl"
+    postUrl = "/7AYPGnLTmU6zDtMMAWqeUkCi7Tw.jpg"
 )

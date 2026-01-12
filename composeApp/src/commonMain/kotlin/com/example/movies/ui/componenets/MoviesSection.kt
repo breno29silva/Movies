@@ -17,12 +17,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview(showBackground = true)
 @Composable
-fun MovieSectionPreview() {
-    MovieSection(title = "Popular Movies", movies = listOf(movie1, movie1))
+fun MoviesSectionPreview() {
+    MoviesSection(title = "Popular Movies", movies = listOf(movie1, movie1))
 }
 
 @Composable
-fun MovieSection(modifier: Modifier = Modifier, title: String, movies: List<Movie>) {
+fun MoviesSection(modifier: Modifier = Modifier, title: String, movies: List<Movie>) {
     Column(modifier = modifier) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
