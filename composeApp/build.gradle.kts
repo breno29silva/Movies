@@ -81,6 +81,9 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.compose.viewmodel.navigation)
             implementation(libs.koin.core)
+
+            // https://klibs.io/project/devsrsouza/compose-icons
+            implementation(libs.composeIcons.fontAwesome)
         }
         iosMain.dependencies {
             // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
