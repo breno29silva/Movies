@@ -27,7 +27,7 @@ fun MoviesListResponse.toModel(): List<Movie> {
 // fake objects
 val movie1 = Movie(
     id = 1,
-    title = "title",
+    title = "Os vingadores",
     overview = "overview",
     postUrl = "/7AYPGnLTmU6zDtMMAWqeUkCi7Tw.jpg"
 )
