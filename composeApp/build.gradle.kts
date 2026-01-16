@@ -84,6 +84,9 @@ kotlin {
 
             // https://klibs.io/project/devsrsouza/compose-icons
             implementation(libs.composeIcons.fontAwesome)
+
+            // https://github.com/Kotlin/kotlinx-datetime
+            implementation(libs.kotlinx.datetime)
         }
         iosMain.dependencies {
             // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies
