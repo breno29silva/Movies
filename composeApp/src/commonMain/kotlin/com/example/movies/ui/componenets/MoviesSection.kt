@@ -18,11 +18,16 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview(showBackground = true)
 @Composable
 fun MoviesSectionPreview() {
-    MoviesSection(title = "Popular Movies", movies = listOf(movie1, movie1))
+    MoviesSection(title = "Popular Movies", movies = listOf(movie1, movie1), onMoviePostClick = {})
 }
 
 @Composable
-fun MoviesSection(modifier: Modifier = Modifier, title: String, movies: List<Movie>) {
+fun MoviesSection(
+    modifier: Modifier = Modifier,
+    title: String,
+    movies: List<Movie>,
+    onMoviePostClick: (moveId: Int) -> Unit
+) {
     Column(modifier = modifier) {
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -35,7 +40,7 @@ fun MoviesSection(modifier: Modifier = Modifier, title: String, movies: List<Mov
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(movies) { movie ->
-                MoviePoster(movie = movie)
+                MoviePoster(movie = movie, onMoviePostClick = onMoviePostClick)
             }
         }
     }

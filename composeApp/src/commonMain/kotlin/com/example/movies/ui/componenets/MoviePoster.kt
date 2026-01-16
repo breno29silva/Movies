@@ -21,15 +21,16 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview(showBackground = true)
 @Composable
 fun MoviePosterPreview() {
-    MoviePoster(movie = movie1)
+    MoviePoster(movie = movie1, onMoviePostClick = {})
 }
 
 @Composable
-fun MoviePoster(modifier: Modifier = Modifier, movie: Movie) {
+fun MoviePoster(modifier: Modifier = Modifier, movie: Movie, onMoviePostClick: (moveId: Int) -> Unit) {
     Column(modifier = modifier.width(140.dp)) {
         Card(
             modifier = Modifier.width(140.dp).height(210.dp),
-            shape = RoundedCornerShape(12.dp)
+            shape = RoundedCornerShape(12.dp),
+            onClick = { onMoviePostClick.invoke(movie.id) }
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxWidth(),

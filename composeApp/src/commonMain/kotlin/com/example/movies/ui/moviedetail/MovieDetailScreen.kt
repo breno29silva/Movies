@@ -57,6 +57,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MovieDetailRoute() {
+    MovieDetailScreen(movie = movie1)
 }
 
 @Preview(showBackground = true)

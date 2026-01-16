@@ -17,8 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.movies.data.repository.MoviesRepository
 import com.example.movies.domain.model.MovieSection
 import com.example.movies.domain.model.movie1
 import com.example.movies.ui.componenets.MoviesSection
@@ -28,11 +26,12 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MoviesListRoute(
-    viewModel: MoviesListViewModel = koinViewModel()
+    viewModel: MoviesListViewModel = koinViewModel(),
+    navigateToMovieDetail: (movieId: Int) -> Unit
 ) {
     val moviesListState by viewModel.moviesListState.collectAsStateWithLifecycle()
 
-    MoviesListScreen(moviesListState)
+    MoviesListScreen(moviesListState = moviesListState, onMoviePostClick = navigateToMovieDetail)
 }
 
 @Preview(showBackground = true)
@@ -48,11 +47,11 @@ fun MoviesListScreenPreview() {
     )
     val errorState = MoviesListViewModel.MoviesListState.Error(message = "Fail")
     val loadingState = MoviesListViewModel.MoviesListState.Loading
-    MoviesListScreen(moviesListState = successState)
+    MoviesListScreen(moviesListState = successState, onMoviePostClick = {})
 }
 
 @Composable
-fun MoviesListScreen(moviesListState: MoviesListViewModel.MoviesListState) {
+fun MoviesListScreen(moviesListState: MoviesListViewModel.MoviesListState, onMoviePostClick: (moveId: Int) -> Unit) {
     Scaffold(modifier = Modifier) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
             when (moviesListState) {
@@ -67,7 +66,11 @@ fun MoviesListScreen(moviesListState: MoviesListViewModel.MoviesListState) {
                         verticalArrangement = Arrangement.spacedBy(32.dp)
                     ) {
                         items(moviesListState.movieSections) { item ->
-                            MoviesSection(title = stringResource(item.sectionTypeEnum.titleRes), movies = item.movies)
+                            MoviesSection(
+                                title = stringResource(item.sectionTypeEnum.titleRes),
+                                movies = item.movies,
+                                onMoviePostClick = onMoviePostClick
+                            )
                         }
                     }
                 }
