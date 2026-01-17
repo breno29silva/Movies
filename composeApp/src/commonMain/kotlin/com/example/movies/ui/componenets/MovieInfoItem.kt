@@ -36,7 +36,7 @@ fun MovieInfoItem(modifier: Modifier = Modifier, icon: ImageVector, text: String
             tint = Color.Gray
         )
         Text(
-            modifier = Modifier.padding(start = 2.dp),
+            modifier = Modifier.padding(start = 4.dp),
             text = text,
             color = Color.Gray,
             style = MaterialTheme.typography.bodySmall

@@ -1,33 +1,29 @@
 package com.example.movies.domain.model
 
-import com.example.movies.data.network.IMAGE_SMALL_BASE_URL
-import com.example.movies.data.network.model.MovieResponse
-import com.example.movies.data.network.model.MoviesListResponse
-
 data class Movie(
     val id: Int,
     val title: String,
     val overview: String,
-    val postUrl: String
+    val postUrl: String,
+    val genres: List<Genre>?,
+    val year: Int,
+    val duration: String?,
+    val rating: String,
+    val castMemberList: List<CastMember>?
 )
-
-fun MovieResponse.toModel(): Movie {
-    return Movie(
-        id = this.id,
-        title = this.title,
-        overview = this.overview,
-        postUrl = "$IMAGE_SMALL_BASE_URL${this.posterPath}"
-    )
-}
-
-fun MoviesListResponse.toModel(): List<Movie> {
-    return this.results.map { it.toModel() }
-}
 
 // fake objects
 val movie1 = Movie(
     id = 1,
-    title = "Os vingadores",
-    overview = "overview",
-    postUrl = "/7AYPGnLTmU6zDtMMAWqeUkCi7Tw.jpg"
+    title = "A Minecraft Movie",
+    overview = "Movie overview",
+    postUrl = "url",
+    genres = listOf(genre1, genre2),
+    year = 2022,
+    duration = "2h 36 min",
+    rating = "8.5",
+    castMemberList = listOf(
+        castMember1,
+        castMember2,
+    )
 )

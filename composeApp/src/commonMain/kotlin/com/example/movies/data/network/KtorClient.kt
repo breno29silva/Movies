@@ -1,5 +1,7 @@
 package com.example.movies.data.network
 
+import com.example.movies.data.network.model.CreditListResponse
+import com.example.movies.data.network.model.MovieResponse
 import com.example.movies.data.network.model.MoviesListResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -11,6 +13,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
@@ -51,7 +54,23 @@ class KtorClient {
     // TODO Add error cases
     suspend fun getMovies(category: String, language: String = "pt-BR"): MoviesListResponse {
         return client.get(urlString = "$BASE_URL/3/movie/${category}") {
-            parameter(key = "language", language)
+            this.addLanguageParam(language = language)
         }.body()
+    }
+
+    suspend fun getMovieDetail(movieId: Int, language: String = "pt-BR"): MovieResponse {
+        return client.get("$BASE_URL/3/movie/$movieId") {
+            this.addLanguageParam(language = language)
+        }.body()
+    }
+
+    suspend fun getCredits(movieId: Int,language: String = "pt-BR"): CreditListResponse {
+        return client.get("$BASE_URL/3/movie/$movieId/credits") {
+            this.addLanguageParam(language = language)
+        }.body()
+    }
+
+    private fun HttpRequestBuilder.addLanguageParam(language: String = "pt-BR") {
+        parameter("language", language)
     }
 }
