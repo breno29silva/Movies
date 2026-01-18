@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -127,7 +129,7 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, o
 
 @Composable
 fun MovieDetailContent(modifier: Modifier = Modifier, movie: Movie) {
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize().verticalScroll(state = rememberScrollState())) {
         Surface(
             modifier = Modifier.fillMaxSize().weight(1f).padding(16.dp),
             shape = MaterialTheme.shapes.large

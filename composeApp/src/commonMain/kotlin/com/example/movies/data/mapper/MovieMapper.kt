@@ -1,20 +1,24 @@
 package com.example.movies.data.mapper
 
 
-import com.example.movies.data.network.IMAGE_SMALL_BASE_URL
+import com.example.movies.data.network.IMAGE_BASE_URL
 import com.example.movies.data.network.model.CastMemberResponse
 import com.example.movies.data.network.model.MovieResponse
 import com.example.movies.data.network.model.MoviesListResponse
+import com.example.movies.domain.enum.ImageSizeEnum
 import com.example.movies.domain.model.Movie
 import kotlin.math.roundToInt
 
 
-fun MovieResponse.toModel(castMembersResponse: List<CastMemberResponse>? = null): Movie {
+fun MovieResponse.toModel(
+    castMembersResponse: List<CastMemberResponse>? = null,
+    imageSize: ImageSizeEnum = ImageSizeEnum.SMALL
+): Movie {
     return Movie(
         id = this.id,
         title = this.title,
         overview = this.overview,
-        postUrl = "$IMAGE_SMALL_BASE_URL${this.posterPath}",
+        postUrl = "$IMAGE_BASE_URL/${imageSize.size}/${this.posterPath}",
         genres = this.genres?.map { it.toModel() },
         year = this.getYearFromReleaseDate(),
         duration = this.getDurationInHoursAndMinutes(),
