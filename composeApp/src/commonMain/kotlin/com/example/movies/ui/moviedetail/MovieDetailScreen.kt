@@ -1,11 +1,13 @@
 package com.example.movies.ui.moviedetail
 
+import VideoPlayer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,12 +25,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -103,6 +110,36 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, o
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
         )
     }) { paddingValues ->
+
+        var youtubeVideoId by remember { mutableStateOf<String?>(null) }
+        youtubeVideoId?.let {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    youtubeVideoId = null
+                },
+                modifier = Modifier
+                    .padding(top = paddingValues.calculateTopPadding()),
+                sheetState = rememberModalBottomSheetState(
+                    skipPartiallyExpanded = true
+                ),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    VideoPlayer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16 / 9f),
+                        url = "https://www.youtube.com/watch?v=$youtubeVideoId",
+                        showControls = true,
+                        autoPlay = true
+                    )
+                }
+            }
+        }
+
         Box(
             modifier = Modifier.fillMaxSize().padding(paddingValues),
             contentAlignment = Alignment.Center
@@ -112,7 +149,9 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, o
                     CircularProgressIndicator()
                 }
                 is MovieDetailViewModel.MovieDetailState.Success -> {
-                    MovieDetailContent(movie = movieDetailState.movie)
+                    MovieDetailContent(
+                        movie = movieDetailState.movie,
+                        onWatchTrailerCLick = { youtubeVideoId = it })
                 }
 
                 is MovieDetailViewModel.MovieDetailState.Error -> {
@@ -128,7 +167,7 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, o
 }
 
 @Composable
-fun MovieDetailContent(modifier: Modifier = Modifier, movie: Movie) {
+fun MovieDetailContent(modifier: Modifier = Modifier, movie: Movie, onWatchTrailerCLick: (key: String) -> Unit) {
     Column(modifier = modifier.fillMaxSize().verticalScroll(state = rememberScrollState())) {
         Surface(
             modifier = Modifier.fillMaxSize().weight(1f).padding(16.dp),
@@ -178,20 +217,23 @@ fun MovieDetailContent(modifier: Modifier = Modifier, movie: Movie) {
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            ElevatedButton(modifier = Modifier.fillMaxWidth(), onClick = {}) {
-                Icon(
-                    modifier = Modifier.size(12.dp),
-                    imageVector = FontAwesomeIcons.Solid.Play,
-                    contentDescription = null
-                )
-                Text(
-                    modifier = Modifier.padding(start = 16.dp),
-                    text = stringResource(Res.string.movie_details_button),
-                    fontWeight = FontWeight.Medium,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+            movie.movieTrailerYoutubeKey?.let { key ->
+                Spacer(modifier = Modifier.height(16.dp))
+                ElevatedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = { onWatchTrailerCLick.invoke(key) }) {
+                    Icon(
+                        modifier = Modifier.size(12.dp),
+                        imageVector = FontAwesomeIcons.Solid.Play,
+                        contentDescription = null
+                    )
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = stringResource(Res.string.movie_details_button),
+                        fontWeight = FontWeight.Medium,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
 
             movie.castMemberList?.let { cartMembers ->

@@ -13,7 +13,8 @@ import kotlin.math.roundToInt
 
 fun MovieResponse.toModel(
     castMembersResponse: List<CastMemberResponse>? = null,
-    imageSize: ImageSizeEnum = ImageSizeEnum.SMALL
+    imageSize: ImageSizeEnum = ImageSizeEnum.SMALL,
+    movieTrailerYoutubeKey: String? = null,
 ): Movie {
     return Movie(
         id = this.id,
@@ -24,6 +25,7 @@ fun MovieResponse.toModel(
         year = this.getYearFromReleaseDate(),
         duration = this.getDurationInHoursAndMinutes(),
         rating = this.voteAverage.formatRating(),
+        movieTrailerYoutubeKey = movieTrailerYoutubeKey,
         castMemberList = castMembersResponse
             ?.filter { it.department == "Acting" }
             ?.take(20)

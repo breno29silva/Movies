@@ -9,7 +9,8 @@ data class Movie(
     val year: Int,
     val duration: String?,
     val rating: String,
-    val castMemberList: List<CastMember>?
+    val castMemberList: List<CastMember>?,
+    val movieTrailerYoutubeKey: String?
 )
 
 // fake objects
@@ -22,6 +23,7 @@ val movie1 = Movie(
     year = 2022,
     duration = "2h 36 min",
     rating = "8.5",
+    movieTrailerYoutubeKey = "dQw4w9WgXcQ",
     castMemberList = listOf(
         castMember1,
         castMember2,
