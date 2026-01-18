@@ -20,6 +20,7 @@ coilCompose = "3.3.0"
 koin = "4.1.0"
 composeIcons = "1.1.1"
 kotlinxDatetime = "0.7.1"
+mediaPlayerKMP = "2.1.0"
 
 
 [libraries]
@@ -64,6 +65,9 @@ composeIcons-fontAwesome = { module = "br.com.devsrsouza.compose.icons:font-awes
 
 # Date to kmp
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+
+# Media player
+media-player-kmp = { module = "io.github.khubaibkhan4:mediaplayer-kmp", version.ref = "mediaPlayerKMP" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
