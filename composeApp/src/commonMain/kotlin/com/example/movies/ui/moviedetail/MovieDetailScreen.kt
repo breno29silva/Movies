@@ -58,23 +58,29 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MovieDetailRoute(
-    viewModel: MovieDetailViewModel = koinViewModel()
+    viewModel: MovieDetailViewModel = koinViewModel(),
+    onNavigationBackIconClick: () -> Unit
 ) {
     val movieDetailState by viewModel.movieDetailState.collectAsStateWithLifecycle()
-    MovieDetailScreen(movieDetailState)
+    MovieDetailScreen(
+        movieDetailState = movieDetailState,
+        onNavigationBackIconClick = onNavigationBackIconClick
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MovieDetailScreenPreview() {
     MoviesAppTheme {
-        MovieDetailScreen(MovieDetailViewModel.MovieDetailState.Success(movie = movie1))
+        MovieDetailScreen(
+            movieDetailState = MovieDetailViewModel.MovieDetailState.Success(movie = movie1),
+            onNavigationBackIconClick = {})
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState) {
+fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, onNavigationBackIconClick: () -> Unit) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(
             title = { Text(stringResource(Res.string.movie_details_list)) },
@@ -83,7 +89,7 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState) {
                     modifier = Modifier.padding(start = 16.dp),
                     shape = MaterialTheme.shapes.small
                 ) {
-                    IconButton(modifier = Modifier.size(32.dp), onClick = {}) {
+                    IconButton(modifier = Modifier.size(32.dp), onClick = onNavigationBackIconClick) {
                         Icon(
                             modifier = Modifier.padding(8.dp),
                             imageVector = FontAwesomeIcons.Solid.ArrowLeft,
