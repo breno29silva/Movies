@@ -7,6 +7,7 @@ import com.example.movies.data.network.model.MovieResponse
 import com.example.movies.data.network.model.MoviesListResponse
 import com.example.movies.domain.enum.ImageSizeEnum
 import com.example.movies.domain.model.Movie
+import com.example.movies.utils.formatRating
 import kotlin.math.roundToInt
 
 
@@ -22,7 +23,7 @@ fun MovieResponse.toModel(
         genres = this.genres?.map { it.toModel() },
         year = this.getYearFromReleaseDate(),
         duration = this.getDurationInHoursAndMinutes(),
-        rating = this.voteAverage.roundToInt().toString(),
+        rating = this.voteAverage.formatRating(),
         castMemberList = castMembersResponse
             ?.filter { it.department == "Acting" }
             ?.take(20)
