@@ -88,8 +88,8 @@ kotlin {
             // https://github.com/Kotlin/kotlinx-datetime
             implementation(libs.kotlinx.datetime)
 
-            // https://klibs.io/project/KhubaibKhan4/MediaPlayer-KMP
-            implementation(libs.media.player.kmp)
+            // https://github.com/KevinnZou/compose-webview-multiplatform
+            implementation(libs.compose.webview.multiplatform )
         }
         iosMain.dependencies {
             // https://ktor.io/docs/client-create-multiplatform-application.html#ktor-dependencies

@@ -1,6 +1,5 @@
 package com.example.movies.ui.moviedetail
 
-import VideoPlayer
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -51,6 +50,9 @@ import com.example.movies.ui.componenets.CastMemberItem
 import com.example.movies.ui.componenets.MovieGenreChip
 import com.example.movies.ui.componenets.MovieInfoItem
 import com.example.movies.ui.theme.MoviesAppTheme
+import com.multiplatform.webview.web.WebView
+import com.multiplatform.webview.web.rememberWebViewNavigator
+import com.multiplatform.webview.web.rememberWebViewState
 import compose.icons.FontAwesomeIcons
 import compose.icons.fontawesomeicons.Solid
 import compose.icons.fontawesomeicons.solid.ArrowLeft
@@ -128,13 +130,11 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, o
                         .fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
-                    VideoPlayer(
+                    YouTubePlayer(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxSize()
                             .aspectRatio(16 / 9f),
-                        url = "https://www.youtube.com/watch?v=$youtubeVideoId",
-                        showControls = true,
-                        autoPlay = true
+                        videoId = it
                     )
                 }
             }
@@ -164,6 +164,23 @@ fun MovieDetailScreen(movieDetailState: MovieDetailViewModel.MovieDetailState, o
             }
         }
     }
+}
+
+@Composable
+fun YouTubePlayer(
+    videoId: String,
+    modifier: Modifier = Modifier
+) {
+    val url = "https://www.youtube.com/watch?v=$videoId"
+    val webViewState = rememberWebViewState(url = url)
+    val navigator = rememberWebViewNavigator()
+
+    WebView(
+        state = webViewState,
+        modifier = modifier.fillMaxSize(),
+        navigator = navigator,
+        captureBackPresses = false
+    )
 }
 
 @Composable
